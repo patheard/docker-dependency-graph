@@ -83,9 +83,11 @@ runs:
         format: "sarif"
         output: "trivy-results.sarif"
 
-    - name: view sarif file
+    - name: update sarif file ROOTPATH
       if: inputs.upload_docker_vulns == 'true'
       run: |
+        cat trivy-results.sarif | jq '.runs[].originalUriBaseIds.ROOTPATH.uri = "${{ inputs.docker_file }}"' > sarif.tmp
+        mv sarif.tmp trivy-results.sarif
         cat trivy-results.sarif
       shell: bash
 
