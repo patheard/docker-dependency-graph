@@ -23,5 +23,6 @@ jobs:
         uses: ./.github/actions/docker-scan
         with:
           docker_image: cartography:latest
+          docker_file: Dockerfile
           sbom_name: cartography:latest
           token: ${{ secrets.GITHUB_TOKEN }}
