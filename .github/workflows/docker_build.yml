@@ -24,7 +24,7 @@ jobs:
           docker build -t cartography:latest .
 
       - name: Docker scan and SBOM to GitHub
-        uses: .github/actions/docker-scan
+        uses: ./.github/actions/docker-scan
         with:
           docker_image: cartography:latest
           sbom_name: cartography:latest
