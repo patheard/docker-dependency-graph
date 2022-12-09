@@ -83,6 +83,12 @@ runs:
         format: "sarif"
         output: "trivy-results.sarif"
 
+    - name: view sarif file
+      if: inputs.upload_docker_vulns == 'true'
+      run: |
+        cat trivy-results.sarif
+      shell: bash
+
     - name: upload trivy scan results to github security tab
       if: inputs.upload_docker_vulns == 'true'
       uses: github/codeql-action/upload-sarif@312e093a1892bd801f026f1090904ee8e460b9b6 # v2.1.34
