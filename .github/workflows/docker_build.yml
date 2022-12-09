@@ -1,0 +1,32 @@
+name: Docker build
+
+on:
+  push:
+
+env:
+  GITHUB_SHA: ${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ${{ fromJSON(needs.changes.outputs.images) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@e2f20e631ae6d7dd3b768f56a5d2af784dd54791 # tag=v2.5.0
+
+      - name: Build container
+        working-directory: ./${{ matrix.image }}
+        run: |
+          docker build -t cartography:latest .
+
+      - name: Docker scan and SBOM to GitHub
+        uses: .github/actions/docker-scan
+        with:
+          docker_image: cartography:latest
+          sbom_name: cartography:latest
+          token: ${{ secrets.GITHUB_TOKEN }}
+          upload_docker_vulns: "false"
