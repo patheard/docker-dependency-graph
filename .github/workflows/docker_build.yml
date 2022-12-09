@@ -25,4 +25,3 @@ jobs:
           docker_image: cartography:latest
           sbom_name: cartography:latest
           token: ${{ secrets.GITHUB_TOKEN }}
-          upload_docker_vulns: "false"
